@@ -2,10 +2,13 @@ import { env } from './env'
 import { knex as setupKnex, Knex } from 'knex'
 
 export const config: Knex.Config = {
-  client: 'sqlite', // banco de dados que estamos usando.
-  connection: {
-    filename: env.DATABASE_URL, // Onde esta meu banco de dados.
-  },
+  client: env.DATABASE_CLIENT, // banco de dados que estamos usando.
+  connection:
+    env.DATABASE_CLIENT === 'sqlite'
+      ? {
+          filename: env.DATABASE_URL,
+        }
+      : env.DATABASE_URL,
   useNullAsDefault: true,
   migrations: {
     extension: 'ts',
